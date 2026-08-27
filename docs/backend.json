@@ -1,0 +1,385 @@
+{
+  "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents a user's profile information within the StudySage application, linked to an external authentication system. This entity stores non-sensitive user data necessary for personalization and associating content.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserProfile entity, typically provided by an external authentication system."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's email address, used for display purposes.",
+          "format": "email"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user's preferred display name or full name."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the user profile was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the user profile was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "displayName",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Subject": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Subject",
+      "type": "object",
+      "description": "Represents a category or subject under which study notes and related materials are organized (e.g., 'History', 'Mathematics').",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Subject entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the subject."
+        },
+        "description": {
+          "type": "string",
+          "description": "An optional detailed description of the subject."
+        },
+        "userProfileId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N Subject)"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the subject was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the subject was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "userProfileId",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Document": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Document",
+      "type": "object",
+      "description": "Represents an uploaded document (e.g., image, PDF) that can be processed by AI for note generation. Stores metadata about the file and its processing status.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Document entity."
+        },
+        "fileName": {
+          "type": "string",
+          "description": "The original name of the uploaded file."
+        },
+        "fileType": {
+          "type": "string",
+          "description": "The MIME type of the uploaded file (e.g., 'application/pdf', 'image/jpeg')."
+        },
+        "storagePath": {
+          "type": "string",
+          "description": "The URI or path where the file is stored in a cloud storage service.",
+          "format": "uri"
+        },
+        "uploadDate": {
+          "type": "string",
+          "description": "Timestamp when the document was uploaded.",
+          "format": "date-time"
+        },
+        "userProfileId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N Document)"
+        },
+        "status": {
+          "type": "string",
+          "description": "The current processing status of the document (e.g., 'uploaded', 'processing', 'processed', 'failed')."
+        },
+        "extractedText": {
+          "type": "string",
+          "description": "The text extracted from the document by the AI, if processing was successful."
+        },
+        "noteIds": {
+          "type": "array",
+          "description": "References to Notes that were generated using this document. (Relationship: Document N:N Note)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the document entity was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the document entity was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "fileName",
+        "fileType",
+        "storagePath",
+        "uploadDate",
+        "userProfileId",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Note": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Note",
+      "type": "object",
+      "description": "Represents a study note, which can be AI-generated, user-edited, and organized by subject. These notes serve as the base for flashcards.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Note entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "A concise title for the study note."
+        },
+        "content": {
+          "type": "string",
+          "description": "The main body of the study note, which can be AI-generated or user-edited."
+        },
+        "sourceKeywords": {
+          "type": "string",
+          "description": "Keywords or topics originally provided by the user to generate the note."
+        },
+        "sourceDocumentIds": {
+          "type": "array",
+          "description": "References to Documents that were used to generate this note. (Relationship: Note N:N Document)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "userProfileId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N Note)"
+        },
+        "subjectId": {
+          "type": "string",
+          "description": "Reference to Subject. (Relationship: Subject 1:N Note)"
+        },
+        "isAIGenerated": {
+          "type": "boolean",
+          "description": "Indicates whether the note's content was initially generated by the AI."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the note was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the note was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "content",
+        "userProfileId",
+        "subjectId",
+        "isAIGenerated",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Flashcard": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Flashcard",
+      "type": "object",
+      "description": "Represents an interactive flashcard derived from a study note, used for active recall and review.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Flashcard entity."
+        },
+        "frontContent": {
+          "type": "string",
+          "description": "The text or question displayed on the front of the flashcard."
+        },
+        "backContent": {
+          "type": "string",
+          "description": "The text or answer displayed on the back of the flashcard."
+        },
+        "noteId": {
+          "type": "string",
+          "description": "Reference to the Note from which this flashcard was created. (Relationship: Note 1:N Flashcard)"
+        },
+        "userProfileId": {
+          "type": "string",
+          "description": "Reference to UserProfile, denormalized for efficient querying of user-specific flashcards. (Relationship: UserProfile 1:N Flashcard)"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the flashcard was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the flashcard was last updated (e.g., content edit, review status update).",
+          "format": "date-time"
+        },
+        "lastReviewedAt": {
+          "type": "string",
+          "description": "Timestamp when the flashcard was last reviewed by the user.",
+          "format": "date-time"
+        },
+        "reviewCount": {
+          "type": "number",
+          "description": "The total number of times this flashcard has been reviewed."
+        },
+        "correctCount": {
+          "type": "number",
+          "description": "The number of times the user correctly answered this flashcard."
+        }
+      },
+      "required": [
+        "id",
+        "frontContent",
+        "backContent",
+        "noteId",
+        "userProfileId",
+        "createdAt",
+        "updatedAt",
+        "reviewCount",
+        "correctCount"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userProfileId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores individual user profiles. Access is strictly limited to the user whose `uid` matches `{userProfileId}`. This path also serves as the root for all user-specific data, enabling authorization independence for subcollections without `get()` calls.",
+          "params": [
+            {
+              "name": "userProfileId",
+              "description": "The unique ID of the user, corresponding to `request.auth.uid`."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userProfileId}/subjects/{subjectId}",
+        "definition": {
+          "entityName": "Subject",
+          "schema": {
+            "$ref": "#/backend/entities/Subject"
+          },
+          "description": "Stores subjects created and owned by a specific user. Ownership is inherently established by the parent path `{userProfileId}`. Includes `userProfileId` field for explicit denormalization to simplify queries and reinforce authorization in rules.",
+          "params": [
+            {
+              "name": "userProfileId",
+              "description": "The unique ID of the user who owns this subject."
+            },
+            {
+              "name": "subjectId",
+              "description": "The unique ID of the subject."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userProfileId}/documents/{documentId}",
+        "definition": {
+          "entityName": "Document",
+          "schema": {
+            "$ref": "#/backend/entities/Document"
+          },
+          "description": "Stores metadata for documents uploaded by a specific user. Ownership is established by the parent path `{userProfileId}`. Includes `userProfileId` field for explicit denormalization to simplify queries and reinforce authorization in rules.",
+          "params": [
+            {
+              "name": "userProfileId",
+              "description": "The unique ID of the user who uploaded this document."
+            },
+            {
+              "name": "documentId",
+              "description": "The unique ID of the document."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userProfileId}/notes/{noteId}",
+        "definition": {
+          "entityName": "Note",
+          "schema": {
+            "$ref": "#/backend/entities/Note"
+          },
+          "description": "Stores study notes (AI-generated or user-edited) for a specific user. Ownership is established by the parent path `{userProfileId}`. Includes `subjectId` and `userProfileId` fields for explicit denormalization to simplify queries and reinforce authorization in rules.",
+          "params": [
+            {
+              "name": "userProfileId",
+              "description": "The unique ID of the user who owns this note."
+            },
+            {
+              "name": "noteId",
+              "description": "The unique ID of the note."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userProfileId}/flashcards/{flashcardId}",
+        "definition": {
+          "entityName": "Flashcard",
+          "schema": {
+            "$ref": "#/backend/entities/Flashcard"
+          },
+          "description": "Stores interactive flashcards derived from notes for a specific user. Ownership is established by the parent path `{userProfileId}`. Includes `noteId` and `userProfileId` fields for explicit denormalization to simplify queries and reinforce authorization in rules.",
+          "params": [
+            {
+              "name": "userProfileId",
+              "description": "The unique ID of the user who owns this flashcard."
+            },
+            {
+              "name": "flashcardId",
+              "description": "The unique ID of the flashcard."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure for StudySage prioritizes security, scalability, and debuggability by strictly adhering to the core design principles, especially Authorization Independence via Denormalization and Structural Segregation.\n\n**Authorization Independence (CRITICAL) and QAPs (Rules are not Filters):**\nAll user-specific data (UserProfile, Subjects, Documents, Notes, Flashcards) are organized under a top-level collection `/users/{userProfileId}`. This hierarchical path-based ownership is the cornerstone of authorization independence. For every subcollection and document within a user's branch (e.g., `/users/{userProfileId}/subjects/{subjectId}` or `/users/{userProfileId}/notes/{noteId}`), the `userProfileId` in the path directly corresponds to `request.auth.uid`. This means that security rules can perform a single, atomic check: `request.auth.uid == userProfileId`.\n\nThis design completely eliminates the need for `get()` calls in security rules to check parent document ownership or attributes. For example, to access a Note, the rule only needs to verify that the `userProfileId` in the path matches the authenticated user's UID. The `subjectId` within a Note document, or the `noteId` within a Flashcard document, are references *within* the current user's data domain. Their validity can be enforced by client-side logic or, if absolutely necessary, by server-side Cloud Functions, but not via `get()` calls in Firestore rules that would violate Authorization Independence.\n\nThis structure naturally supports QAPs (Rules are not Filters) for `list` operations. When a user queries their subjects (e.g., `db.collection('users/{myUid}/subjects')`), the query implicitly operates within their authorized scope. The security rule `allow list: if request.auth.uid == userProfileId;` ensures that users can only list documents belonging to their own `userProfileId` and cannot inadvertently query or filter across other users' data, thus making `list` operations inherently secure and performant.\n\n**Denormalization:**\nWhile the path structure inherently denormalizes `userProfileId` for subcollections, key foreign reference IDs like `subjectId` in a `Note` and `noteId` and `userProfileId` in a `Flashcard` are also included within the document itself. This explicit inclusion allows for efficient single-document queries and further reinforces authorization context, even if the primary path-based authorization is sufficient. The `userProfileId` in the `Flashcard` document is explicitly called out as denormalized for efficient user-specific querying, demonstrating this principle.\n\n**Structural Segregation:**\nBy placing all personal data under `/users/{userProfileId}`, all documents within these subcollections share a homogeneous security posture: they are private to the owning user. There is no mixing of public, shared, or private data within the same collection, which greatly simplifies security rules and makes their intent clear.\n\n**Access Modeling:**\nThe design predominantly uses **Path-Based Ownership** and **Hierarchical Paths for User-Owned Data**. This is evident in the `/users/{userProfileId}/subjects/{subjectId}` pattern, which is applied consistently across all entities. This method is highly secure and debuggable.\n\n**Data Clarity and Predictability:**\nEntities like `Document` use a clear `status` field for state modeling. All paths use descriptive wildcards (e.g., `{userProfileId}`, `{subjectId}`). Consistent field names like `userProfileId` are used throughout to denote ownership and relationships."
+  }
+}

@@ -1,0 +1,47 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --------------------------------------------------------------------------------
+    // Helper Functions
+    // --------------------------------------------------------------------------------
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // --------------------------------------------------------------------------------
+    // Collection Rules
+    // --------------------------------------------------------------------------------
+
+    match /users/{userProfileId} {
+      // Users can manage their own profile. List is disabled to prevent enumeration.
+      allow get, delete: if isOwner(userProfileId);
+      allow list: if false;
+      allow create: if isOwner(userProfileId) && request.resource.data.id == userProfileId;
+      allow update: if isOwner(userProfileId) && request.resource.data.id == resource.data.id;
+
+      // Nested subcollections benefit from the parent path authorization.
+      
+      match /subjects/{subjectId} {
+        allow read, write: if isOwner(userProfileId);
+      }
+
+      match /documents/{documentId} {
+        allow read, write: if isOwner(userProfileId);
+      }
+
+      match /notes/{noteId} {
+        allow read, write: if isOwner(userProfileId);
+      }
+
+      match /flashcards/{flashcardId} {
+        allow read, write: if isOwner(userProfileId);
+      }
+    }
+  }
+}

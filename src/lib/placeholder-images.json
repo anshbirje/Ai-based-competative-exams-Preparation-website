@@ -1,0 +1,28 @@
+{
+  "placeholderImages": [
+    {
+      "id": "studysage-hero",
+      "description": "A focused student studying at a clean desk with a laptop and books, with a calm green plant in the background.",
+      "imageUrl": "https://images.unsplash.com/photo-1596247290824-e9f12b8c574f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzdHVkZW50JTIwc3R1ZHlpbmd8ZW58MHx8fHwxNzcxOTE3MjM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "student studying"
+    },
+    {
+      "id": "studysage-feature-1",
+      "description": "An abstract representation of an AI brain processing information from a book.",
+      "imageUrl": "https://images.unsplash.com/photo-1674027444454-97b822a997b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxBSSUyMGJyYWlufGVufDB8fHx8MTc3MTk0NDM4M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "AI brain"
+    },
+    {
+      "id": "studysage-feature-2",
+      "description": "A digital bookshelf with subjects neatly organized as different colored books.",
+      "imageUrl": "https://images.unsplash.com/photo-1728450136822-f0a58df17825?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwYm9va3NoZWxmfGVufDB8fHx8MTc3MTk1MDExOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "digital bookshelf"
+    },
+    {
+      "id": "studysage-feature-3",
+      "description": "A hand holding a digital flashcard on a tablet device.",
+      "imageUrl": "https://images.unsplash.com/photo-1598263689741-83c153610472?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkaWdpdGFsJTIwZmxhc2hjYXJkfGVufDB8fHx8MTc3MTk1MDExOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "digital flashcard"
+    }
+  ]
+}
